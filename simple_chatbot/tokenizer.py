@@ -14,7 +14,7 @@ else:
     STEMMER = None
 
 
-def create_tokens_from_pattern(pattern):
+def get_tokens_from_pattern(pattern):
     tokens = []
     alphanumerical_pattern = re.sub(r'[^a-zA-Z0-9 ]', '', pattern).lower()
     words = word_tokenize(alphanumerical_pattern)

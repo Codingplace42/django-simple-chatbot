@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from .tokenizer import get_tokens_from_pattern
 
-# Create your views here.
+
+def dashboard(request):
+    get_tokens_from_pattern("HELLO WORLD")
+    return HttpResponse("Chatbot")
