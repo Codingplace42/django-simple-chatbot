@@ -9,3 +9,7 @@ virtualenv/
 *.sqlite3
 *.log
 local_settings.py
+
+# dummy django stuff
+django_base
+manage.py
