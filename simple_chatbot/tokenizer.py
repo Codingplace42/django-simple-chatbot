@@ -21,4 +21,4 @@ def get_tokens_from_pattern(pattern):
     if STEMMER:
         words = [STEMMER.stem(word) for word in words]
     tokens.extend(words)
-    return list(set(tokens))
+    return tokens
