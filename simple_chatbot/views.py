@@ -1,7 +1,12 @@
-from django.http import HttpResponse
-from .tokenizer import get_tokens_from_pattern
+from rest_framework.generics import GenericAPIView
+from .models import Pattern, Tag
 
 
-def dashboard(request):
-    get_tokens_from_pattern("HELLO WORLD")
-    return HttpResponse("Chatbot")
+class SimpleChatbot(GenericAPIView):
+    save_pattern = True
+    queryset = Pattern.objects
+
+    def get(self, request, *args, **kwargs):
+        s = "What is your recommendation for today?"
+        tag = Tag.objects.get_tag_by_string(s)
+        return {}

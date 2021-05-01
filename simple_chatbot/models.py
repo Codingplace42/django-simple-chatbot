@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from .tokenizer import get_tokens_from_pattern
+from .utils import PatternMatcher
 
 
 class Token(models.Model):
@@ -32,6 +33,16 @@ class Token(models.Model):
         return self.token
 
 
+class TagManager(models.Manager):
+    def get_tag_by_string(self, string):
+        tokens = get_tokens_from_pattern(string)
+        token_instances = Token.objects.filter(token__in=tokens)
+        pattern_pks = token_instances.values_list("patterns")
+        patterns = Pattern.objects.filter(id__in=pattern_pks)
+        pattern_matcher = PatternMatcher(tokens=tokens, patterns=patterns)
+        return pattern_matcher.get_best_matched_tag()
+
+
 class Tag(models.Model):
     name = models.CharField(
         verbose_name=_("name"),
@@ -41,6 +52,8 @@ class Tag(models.Model):
         verbose_name=_("description"),
         blank=True
     )
+
+    objects = TagManager()
 
     class Meta:
         verbose_name = _("tag")
