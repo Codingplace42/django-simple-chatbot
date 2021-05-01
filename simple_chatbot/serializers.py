@@ -6,4 +6,8 @@ class PatternSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pattern
         fields = '__all__'
-a = 42
+
+
+class ChatResponseSerializer(serializers.Serializer):
+    tag = serializers.CharField()
+    message = serializers.CharField()
