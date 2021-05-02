@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from .tokenizer import get_tokens_from_pattern
 from .utils import PatternMatcher
-from . import settings
+from .settings import simple_chatbot_settings
 
 
 class Token(models.Model):
@@ -17,7 +17,6 @@ class Token(models.Model):
         to="Pattern",
         related_name="%(class)ss",
         blank=True,
-        null=True,
         editable=False
     )
 
@@ -48,7 +47,7 @@ class Tag(models.Model):
     method = models.CharField(
         verbose_name=_("Method"),
         unique=True,
-        choices=settings.DEFAULTS["responses"],
+        choices=simple_chatbot_settings.responses,
         max_length=120
     )
     description = models.TextField(
