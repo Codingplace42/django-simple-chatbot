@@ -5,7 +5,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name="django-simple-chatbot",
-    version="0.0.8",
+    version="0.0.9",
     author="Janga",
     license='MIT License',
     author_email="jangascodingplace@gmail.com",
