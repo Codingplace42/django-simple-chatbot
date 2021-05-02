@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from .tokenizer import get_tokens_from_pattern
 from .utils import PatternMatcher
-from django.conf import settings
+from . import settings
 
 
 class Token(models.Model):
@@ -48,7 +48,7 @@ class Tag(models.Model):
     method = models.CharField(
         verbose_name=_("Method"),
         unique=True,
-        choices=settings.SIMPLE_CHATBOT["responses"],
+        choices=settings.DEFAULTS["responses"],
         max_length=120
     )
     description = models.TextField(
