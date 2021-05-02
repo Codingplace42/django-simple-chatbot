@@ -76,6 +76,8 @@ the following labels:
 ["Goodbye"]
 "Bye", "See you later", "Goodbye", "I need to go now."
 ```
+**Note** If you do not want to write that patterns by yourself, use a command
+`manage.py simple_chatbot_initial`. You need to label them after initializing.
 
 The package will automatically tokenize the input and map tokens to labels.
 
