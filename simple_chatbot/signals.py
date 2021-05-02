@@ -1,6 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
-from simple_chatbot.models import Pattern, Token
+from simple_chatbot.models import Pattern, Token, UserMessageInput
 
 
 @receiver(post_save, sender=Pattern)
@@ -18,3 +18,18 @@ def clear_tokens_on_change(instance, *args, **kwargs):
         return
     pattern = Pattern.objects.get(id=instance.id)
     pattern.tokens.clear()
+
+
+@receiver(post_save, sender=UserMessageInput)
+def cp_user_message_input_to_pattern(instance, created, *args, **kwargs):
+    if created:
+        return
+    if instance.status:
+        instance.correct_tag = instance.identified_tag
+    if not instance.correct_tag:
+        return
+    if instance.correct_tag == instance.identified_tag and not instance.status:
+        instance.status = True
+        instance.save()
+        return
+    Pattern.objects.get_or_create(string=instance.message, tag=instance.correct_tag)
