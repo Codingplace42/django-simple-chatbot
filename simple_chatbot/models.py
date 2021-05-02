@@ -92,3 +92,39 @@ class Pattern(models.Model):
     def save(self, *args, **kwargs):
         self.tokenized_string = " ".join(get_tokens_from_pattern(self.string))
         super().save(*args, **kwargs)
+
+
+class UserMessageInput(models.Model):
+    message = models.CharField(
+        verbose_name=_("message"),
+        max_length=1024
+    )
+    identified_tag = models.ForeignKey(
+        to=Tag,
+        verbose_name=_("identified tag"),
+        related_name="%(class)s_identified",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    status = models.BooleanField(
+        verbose_name=_("Status"),
+        blank=True,
+        null=True,
+        help_text="Message evaluation right or wrong?"
+    )
+    timestamp = models.DateTimeField(
+        verbose_name=_("timestamp"),
+        auto_now_add=True
+    )
+    correct_tag = models.ForeignKey(
+        to=Tag,
+        verbose_name=_("correct tag"),
+        related_name="%(class)s_corrected",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
+
+    def __str__(self):
+        return self.message
