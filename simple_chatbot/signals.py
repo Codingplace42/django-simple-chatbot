@@ -24,12 +24,15 @@ def clear_tokens_on_change(instance, *args, **kwargs):
 def cp_user_message_input_to_pattern(instance, created, *args, **kwargs):
     if created:
         return
-    if instance.status:
+    if instance.status and instance.correct_tag != instance.identified_tag:
         instance.correct_tag = instance.identified_tag
-    if not instance.correct_tag:
+        instance.save()
         return
-    if instance.correct_tag == instance.identified_tag and not instance.status:
+    elif instance.correct_tag == instance.identified_tag and not instance.status:
         instance.status = True
         instance.save()
         return
-    Pattern.objects.get_or_create(string=instance.message, tag=instance.correct_tag)
+    elif not instance.correct_tag:
+        return
+    else:
+        Pattern.objects.get_or_create(string=instance.message, tag=instance.correct_tag)

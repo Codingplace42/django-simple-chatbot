@@ -86,8 +86,15 @@ class Pattern(models.Model):
         on_delete=models.SET_NULL
     )
 
+    class Meta:
+        verbose_name = _("pattern")
+        verbose_name_plural = _("patterns")
+        app_label = "simple_chatbot"
+
     def __str__(self):
-        return self.string
+        if len(self.string) < 63:
+            return self.string
+        return f"{self.string[:60]}..."
 
     def save(self, *args, **kwargs):
         self.tokenized_string = " ".join(get_tokens_from_pattern(self.string))
@@ -126,5 +133,13 @@ class UserMessageInput(models.Model):
         on_delete=models.SET_NULL
     )
 
+    class Meta:
+        verbose_name = _("user message input")
+        verbose_name_plural = _("user message inputs")
+        ordering = ('-timestamp', )
+        app_label = "simple_chatbot"
+
     def __str__(self):
-        return self.message
+        if len(self.message) < 63:
+            return self.message
+        return f"{self.message[:60]}..."
